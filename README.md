@@ -1,6 +1,6 @@
-# moe° Bot
+# Moe° bot
 
-moe° bot is an application of ``illustration2vec (i2v)`` on telegram platform.  
+Moe° bot is an application of ``illustration2vec (i2v)`` on telegram platform.  
 It can calculate the degrees of moe from your pictures.
 
 # About characteristic of moe
@@ -26,3 +26,8 @@ and follow the issue https://github.com/rezoo/illustration2vec/issues/6 to fix s
 create a bot in telegram, https://core.telegram.org/bots  
 replace `<token>` in app.py code by your token of bot.  
 then `$ ./app.py`
+
+# License
+
+All files I have provided are licensed under the MIT License.
+
