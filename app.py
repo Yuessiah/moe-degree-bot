@@ -20,9 +20,9 @@ def Receive_and_reply(bot, update):
     chat_id = update.message.chat_id
 
     img = bot.get_file(update.message.photo[-1].file_id)
-    img.download(str(chat_id) + ".jpg")
+    img.download("./img/" + str(chat_id) + ".jpg")
 
-    moe = PIL.Image.open(str(chat_id) + ".jpg")
+    moe = PIL.Image.open("./img/" + str(chat_id) + ".jpg")
     result = illust2vec.estimate_plausible_tags([moe], threshold=0.5)
 
     total = 0
@@ -37,7 +37,7 @@ def Receive_and_reply(bot, update):
     bot.send_message(chat_id=chat_id, text=text)
 
     if total >= top_score:
-        img.download("Top1moe.jpg")
+        img.download("./img/Top1moe.jpg")
         top_score = total
 
 
@@ -47,7 +47,7 @@ def Feedback(bot, update):
 
 
 def Top1moe(bot, update):
-    bot.send_photo(chat_id=update.message.chat_id, photo=open("Top1moe.jpg", "rb"))
+    bot.send_photo(chat_id=update.message.chat_id, photo=open("./img/Top1moe.jpg", "rb"))
 
 
 def main():
@@ -55,7 +55,7 @@ def main():
     illust2vec = i2v.make_i2v_with_chainer(i2v_path+"illust2vec_tag_ver200.caffemodel", i2v_path+"tag_list.json")
     top_score = 0
 
-    updater = Updater(token="478026540:AAEyHqkOBnBZhtVQPNJk6IuSnhzZzXnujAA")
+    updater = Updater(token="<token>")
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(MessageHandler(Filters.photo, Receive_and_reply))
