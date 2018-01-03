@@ -16,11 +16,14 @@ def Start(bot, update):
 
 
 def Receive_and_reply(bot, update):
-    img = bot.get_file(update.message.photo[-1].file_id)
-    img.download("moe_pic.jpg")
+    global top_score
+    chat_id = update.message.chat_id
 
-    img = PIL.Image.open("moe_pic.jpg")
-    result = illust2vec.estimate_plausible_tags([img], threshold=0.5)
+    img = bot.get_file(update.message.photo[-1].file_id)
+    img.download(str(chat_id) + ".jpg")
+
+    moe = PIL.Image.open(str(chat_id) + ".jpg")
+    result = illust2vec.estimate_plausible_tags([moe], threshold=0.5)
 
     total = 0
     text = "I see the moe picture have:\n"
@@ -31,7 +34,11 @@ def Receive_and_reply(bot, update):
     text += '!' if total >= 10 else '.'
     if total is 0: text = "Your picture is not moe."
 
-    bot.send_message(chat_id=update.message.chat_id, text=text)
+    bot.send_message(chat_id=chat_id, text=text)
+
+    if total >= top_score:
+        img.download("Top1moe.jpg")
+        top_score = total
 
 
 def Feedback(bot, update):
@@ -39,16 +46,22 @@ def Feedback(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=text)
 
 
-def main():
-    global illust2vec
-    illust2vec = i2v.make_i2v_with_chainer(i2v_path+"illust2vec_tag_ver200.caffemodel", i2v_path+"tag_list.json")
+def Top1moe(bot, update):
+    bot.send_photo(chat_id=update.message.chat_id, photo=open("Top1moe.jpg", "rb"))
 
-    updater = Updater(token="<token>")
+
+def main():
+    global illust2vec, top_score
+    illust2vec = i2v.make_i2v_with_chainer(i2v_path+"illust2vec_tag_ver200.caffemodel", i2v_path+"tag_list.json")
+    top_score = 0
+
+    updater = Updater(token="478026540:AAEyHqkOBnBZhtVQPNJk6IuSnhzZzXnujAA")
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(MessageHandler(Filters.photo, Receive_and_reply))
     dispatcher.add_handler(CommandHandler("start", Start))
-    dispatcher.add_handler(CommandHandler('feedback', Feedback))
+    dispatcher.add_handler(CommandHandler("feedback", Feedback))
+    dispatcher.add_handler(CommandHandler("top1moe", Top1moe))
 
     updater.start_polling()
     updater.idle()
