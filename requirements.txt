@@ -1,4 +1,4 @@
-Pillow==4.3.0
+Pillow==9.0.1
 PyWavelets==0.5.2
 argparse==1.2.1
 backports.functools-lru-cache==1.4
