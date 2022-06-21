@@ -10,7 +10,7 @@ filelock==2.0.14
 future==0.16.0
 matplotlib==2.1.1
 networkx==2.0
-numpy==1.13.3
+numpy==1.22.0
 olefile==0.44
 protobuf==3.5.1
 pyparsing==2.2.0
