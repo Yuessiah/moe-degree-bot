@@ -2,7 +2,7 @@ Pillow==4.3.0
 PyWavelets==0.5.2
 argparse==1.2.1
 backports.functools-lru-cache==1.4
-certifi==2017.11.5
+certifi==2022.12.7
 chainer==3.2.0
 cycler==0.10.0
 decorator==4.1.2
